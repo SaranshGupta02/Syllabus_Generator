@@ -8,7 +8,19 @@ from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.firecrawl import FirecrawlTools
 import os
 from dotenv import load_dotenv
+import json
+
 load_dotenv()
+
+# Sidebar for OpenAI API key and model selection
+st.sidebar.header("🔑 OpenAI Settings")
+api_key = st.sidebar.text_input("Enter OpenAI API Key", type="password")
+model_name = st.sidebar.selectbox("Choose OpenAI Model", ["gpt-3.5-turbo", "o3-mini"])
+
+# Ensure API key is set
+if api_key:
+    os.environ["OPENAI_API_KEY"] = api_key
+
 # Define helper classes and functions
 class WebSearchAgent:
     def __init__(self, agent):
@@ -30,7 +42,7 @@ class CrawlAgent:
         self.agent = agent
 
     def crawl(self, url, exam_name):
-        message = f"Fetch the syllabus for the exam {exam_name} from this site {url}. Remember, don’t include promotions, courses, or external links."
+        message = f"Fetch the syllabus for the exam {exam_name} from this site {url}. Don’t include promotions, courses, or external links."
         response = self.agent.run(message=message)
         return response.content if response else None
 
@@ -48,8 +60,8 @@ class ExamSyllabusFetcher:
 
         links = LinkExtractor.extract_links(search_response)
         syllabus_content = search_response if not links else ""
-        if(len(links)>2):
-            links=links[0:2]
+        links = links[:2]  # Limit to first two links
+
         for link in links:
             status_box.write(f"🌍 Crawling: {link}")
             syllabus_text = self.crawl_agent.crawl(link, exam_name)
@@ -61,39 +73,29 @@ class ExamSyllabusFetcher:
 
     def summarize_syllabus(self, syllabus_text, exam_name):
         prompt = ChatPromptTemplate.from_template(
-    "You have been given the latest syllabus for the {exam} exam from different websites. "
-    "You must analyze this syllabus and return the final structured syllabus. "
-    "You can integrate both the provided information and your understanding to provide accurate syllabus"
-    "Subtopics of any topic should be all the subtopics that come under that particular topic in the exam"
-    "Return the output in a well-structured JSON format with the following structure: "
-    "{{"
-    "  \"exam\": \"{exam}\", "
-    "  \"subjects\": ["
-    "    {{"
-    "      \"subject\": \"<subject_name>\", "
-    "      \"topics\": ["
-    "        {{"
-    "          \"topic\": \"<topic_name>\", "
-    "          \"subtopics\": [\"<subtopic_1>\", \"<subtopic_2>\", ...], "
-    "        }}, ..."
-    "      ]"
-    "    }}, ..."
-    "  ]"
-    "}} "
-    "Ensure the JSON is properly formatted and contains all relevant details."
-    " Syllabus: {syllabus}"
-)
-        
-        prompt2=ChatPromptTemplate.from_template(
-         """You have given the content of the websites where the syllabus of {exam} exam 
-            can be found . You have to remove the all irrelevent content like promotion,ad,courses etc from the website content and give all the syllabus related content extraced from the website
-            Websites content
-            {syllabus}           
-         """)
+            """
+            You have been given the latest syllabus for the {exam} exam from different websites.
+            You must analyze this syllabus and return a well-structured JSON syllabus.
+            {{
+              "exam": "{exam}",
+              "subjects": [
+                {{
+                  "subject": "<subject_name>",
+                  "topics": [
+                    {{
+                      "topic": "<topic_name>",
+                      "subtopics": ["<subtopic_1>", "<subtopic_2>", ...]
+                    }}, ...
+                  ]
+                }}, ...
+              ]
+            }}
+            Ensure the JSON is properly formatted and contains all relevant details.
+            Syllabus: {syllabus}
+            """
+        )
+
         parser = StrOutputParser()
-        formatted_prompt2=prompt2.format(exam=exam_name,syllabus=syllabus_text)
-        syllabus_text=(parser.parse(self.llm.invoke(formatted_prompt2))).content
-        print(syllabus_text)
         formatted_prompt = prompt.format(exam=exam_name, syllabus=syllabus_text)
         llm_response = self.llm.invoke(formatted_prompt)
         return parser.parse(llm_response)
@@ -101,7 +103,7 @@ class ExamSyllabusFetcher:
 # Initialize agents
 Crawl = Agent(name="Crawl Agent", tools=[FirecrawlTools(scrape=False, crawl=True)], show_tool_calls=True)
 WebSearch = Agent(name="Web Search Agent", tools=[DuckDuckGoTools()], show_tool_calls=True)
-llm = ChatOpenAI(model_name="o3-mini", temperature=0.7)
+llm = ChatOpenAI(model_name=model_name, temperature=0.7)
 fetcher = ExamSyllabusFetcher(WebSearchAgent(WebSearch), CrawlAgent(Crawl), llm)
 
 # Streamlit UI
@@ -109,34 +111,22 @@ st.set_page_config(page_title="Exam Syllabus Fetcher", layout="centered")
 st.title("📘 Exam Syllabus Fetcher")
 st.markdown("Enter the name of the exam, and the AI will fetch and summarize the latest syllabus for you.")
 exam_name = st.text_input("✏️ Exam Name:", placeholder="e.g., JEE, GATE, UPSC")
-import json
+
 if st.button("🚀 Fetch Syllabus", use_container_width=True):
     if exam_name:
         status_box = st.empty()
         with st.spinner("Processing..."):
             syllabus_summary = fetcher.fetch_syllabus(exam_name, status_box)
-            syllabus_summary=json.loads(syllabus_summary.content)
+            syllabus_summary = json.loads(syllabus_summary.content)
         status_box.empty()
         st.success("✅ Syllabus Retrieved!")
-        #st.write(syllabus_summary)
-        
         syllabus_str = json.dumps(syllabus_summary, indent=4)
-
-
         st.code(syllabus_str, language="json")
-        
-        # Add a download button for JSON
         st.download_button(
             label="📥 Download Syllabus JSON",
             data=syllabus_str,
             file_name="syllabus.json",
             mime="application/json"
         )
-        
-        
-        
-        
-        
-        
     else:
         st.warning("⚠️ Please enter an exam name.")
