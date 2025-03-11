@@ -1,0 +1,78 @@
+{
+    "exam": "SAT",
+    "subjects": [
+        {
+            "subject": "Evidence-Based Reading and Writing",
+            "sections": [
+                {
+                    "section": "Reading Test",
+                    "topics": [
+                        "Reading comprehension",
+                        "Understanding passages",
+                        "Literature",
+                        "Historical documents",
+                        "Social sciences",
+                        "Natural sciences",
+                        "Author's intent",
+                        "Analyzing evidence"
+                    ]
+                },
+                {
+                    "section": "Writing and Language Test",
+                    "topics": [
+                        "Identifying errors in writing style",
+                        "Grammar",
+                        "Usage",
+                        "Word choice",
+                        "Improving passages",
+                        "Refining arguments",
+                        "Correcting mistakes"
+                    ]
+                }
+            ]
+        },
+        {
+            "subject": "Math",
+            "sections": [
+                {
+                    "section": "Math with Calculator",
+                    "topics": [
+                        "Algebra",
+                        "Problem-solving",
+                        "Data analysis",
+                        "Advanced math",
+                        "Geometry",
+                        "Trigonometry",
+                        "Multiple-choice questions",
+                        "Grid-in answers"
+                    ]
+                },
+                {
+                    "section": "Math without Calculator",
+                    "topics": [
+                        "Algebra",
+                        "Problem-solving",
+                        "Data analysis",
+                        "Advanced math",
+                        "Geometry",
+                        "Trigonometry",
+                        "Multiple-choice questions",
+                        "Grid-in answers"
+                    ]
+                }
+            ]
+        },
+        {
+            "subject": "Optional Essay",
+            "sections": [
+                {
+                    "section": "Essay",
+                    "topics": [
+                        "Reading a passage",
+                        "Analyzing how the author built an argument"
+                    ]
+                }
+            ]
+        }
+    ]
+}

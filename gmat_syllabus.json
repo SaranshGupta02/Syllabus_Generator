@@ -1,0 +1,43 @@
+{
+    "exam": "GMAT",
+    "subjects": [
+        {
+            "subject": "Analytical Writing Assessment (AWA)",
+            "topics": [
+                "Single essay of argument analysis",
+                "Critical analysis of reasoning",
+                "Constructing a coherent argument"
+            ]
+        },
+        {
+            "subject": "Integrated Reasoning (IR)",
+            "topics": [
+                "Data analysis skills",
+                "Graphics interpretation",
+                "Multi-source reasoning",
+                "Two-part analysis"
+            ]
+        },
+        {
+            "subject": "Quantitative Reasoning",
+            "topics": [
+                "Problem-solving",
+                "Data sufficiency",
+                "Arithmetic",
+                "Algebra",
+                "Geometry",
+                "Word problems"
+            ]
+        },
+        {
+            "subject": "Verbal Reasoning",
+            "topics": [
+                "Reading comprehension",
+                "Critical reasoning",
+                "Sentence correction",
+                "Grammar",
+                "Logic in language"
+            ]
+        }
+    ]
+}

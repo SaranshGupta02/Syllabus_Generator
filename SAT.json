@@ -1,0 +1,24 @@
+{
+    "exam": "SAT",
+    "subjects": [
+        {
+            "subject": "Reading and Writing",
+            "topics": [
+                "Craft and Structure - Comprehension, vocabulary, analysis",
+                "Information and Ideas - Evaluation, integration of texts and graphics",
+                "Standard Conventions of English - Edit to adhere to English conventions",
+                "Expression of Ideas - Revise text for clarity and rhetorical effectiveness"
+            ]
+        },
+        {
+            "subject": "Math",
+            "topics": [
+                "Algebra",
+                "Geometry",
+                "Trigonometry",
+                "Advanced Math",
+                "Problem-Solving and Data Analysis"
+            ]
+        }
+    ]
+}

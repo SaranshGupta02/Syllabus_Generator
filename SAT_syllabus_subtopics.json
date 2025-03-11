@@ -1,0 +1,69 @@
+{
+    "exam": "SAT",
+    "subjects": [
+        {
+            "subject": "Reading and Writing",
+            "topics": [
+                {
+                    "topic": "Reading Comprehension",
+                    "subtopics": [
+                        "Passages on literature",
+                        "Passages on history/social studies",
+                        "Passages on humanities",
+                        "Passages on science"
+                    ]
+                },
+                {
+                    "topic": "Writing Skills",
+                    "subtopics": [
+                        "Grammar",
+                        "Sentence structure",
+                        "Punctuation",
+                        "Organization of ideas"
+                    ]
+                }
+            ]
+        },
+        {
+            "subject": "Mathematics",
+            "topics": [
+                {
+                    "topic": "Algebra",
+                    "subtopics": [
+                        "Basic algebraic operations",
+                        "Equations and inequalities",
+                        "Functions",
+                        "Graphs and equations"
+                    ]
+                },
+                {
+                    "topic": "Geometry",
+                    "subtopics": [
+                        "Basic geometry concepts",
+                        "Properties of shapes",
+                        "Coordinate geometry",
+                        "Trigonometry"
+                    ]
+                },
+                {
+                    "topic": "Trigonometry",
+                    "subtopics": [
+                        "Trigonometric functions",
+                        "Trigonometric identities",
+                        "Trigonometric equations",
+                        "Applications of trigonometry"
+                    ]
+                },
+                {
+                    "topic": "Advanced Math",
+                    "subtopics": [
+                        "Calculus",
+                        "Probability",
+                        "Data analysis",
+                        "Problem-solving"
+                    ]
+                }
+            ]
+        }
+    ]
+}
