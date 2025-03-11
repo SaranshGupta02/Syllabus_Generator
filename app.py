@@ -101,7 +101,7 @@ class ExamSyllabusFetcher:
 # Initialize agents
 Crawl = Agent(name="Crawl Agent", tools=[FirecrawlTools(scrape=False, crawl=True)], show_tool_calls=True)
 WebSearch = Agent(name="Web Search Agent", tools=[DuckDuckGoTools()], show_tool_calls=True)
-llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.7)
+llm = ChatOpenAI(model_name="o3-mini", temperature=0.7)
 fetcher = ExamSyllabusFetcher(WebSearchAgent(WebSearch), CrawlAgent(Crawl), llm)
 
 # Streamlit UI
