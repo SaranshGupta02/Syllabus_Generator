@@ -2,3 +2,5 @@ langchain_openai
 agno 
 duckduckgo-search 
 firecrawl-py
+langchain
+python-dotenv
