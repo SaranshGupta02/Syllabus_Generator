@@ -130,3 +130,4 @@ if st.button("🚀 Fetch Syllabus", use_container_width=True):
         )
     else:
         st.warning("⚠️ Please enter an exam name.")
+        
