@@ -119,11 +119,17 @@ if st.button("🚀 Fetch Syllabus", use_container_width=True):
         status_box = st.empty()
         with st.spinner("Processing..."):
             syllabus_summary = fetcher.fetch_syllabus(exam_name, status_box)
-            syllabus_summary = json.loads(syllabus_summary)  # ✅ Fix applied
+            syllabus_summary=json.loads(syllabus_summary.content)
         status_box.empty()
         st.success("✅ Syllabus Retrieved!")
+        #st.write(syllabus_summary)
+        
         syllabus_str = json.dumps(syllabus_summary, indent=4)
+
+
         st.code(syllabus_str, language="json")
+        
+        # Add a download button for JSON
         st.download_button(
             label="📥 Download Syllabus JSON",
             data=syllabus_str,
