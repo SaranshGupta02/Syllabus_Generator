@@ -93,11 +93,6 @@ class ExamSyllabusFetcher:
         llm_response = self.llm.invoke(formatted_prompt)
         return parser.parse(llm_response)
 
-# Initialize agents
-Crawl = Agent(name="Crawl Agent", tools=[FirecrawlTools(scrape=False, crawl=True)], show_tool_calls=True)
-WebSearch = Agent(name="Web Search Agent", tools=[DuckDuckGoTools()], show_tool_calls=True)
-llm = ChatOpenAI(model_name="o3-mini", temperature=0.7)
-fetcher = ExamSyllabusFetcher(WebSearchAgent(WebSearch), CrawlAgent(Crawl), llm)
 
 # Streamlit UI
 st.title("📘 Exam Syllabus Fetcher")
@@ -108,10 +103,16 @@ with st.sidebar:
     st.header("⚙️ Settings")
     api_key = st.text_input("🔑 OpenAI API Key", type="password")
     model_choice = st.selectbox("🤖 Choose OpenAI Model", ["o3-mini", "gpt-3.5-turbo", "gpt-4"])
+    llm = ChatOpenAI(model_name=model_choice)
     if api_key:
         os.environ["OPENAI_API_KEY"] = api_key
 
 exam_name = st.text_input("✏️ Exam Name:", placeholder="e.g., JEE, GATE, UPSC")
+# Initialize agents
+Crawl = Agent(name="Crawl Agent", tools=[FirecrawlTools(scrape=False, crawl=True)], show_tool_calls=True)
+WebSearch = Agent(name="Web Search Agent", tools=[DuckDuckGoTools()], show_tool_calls=True)
+
+fetcher = ExamSyllabusFetcher(WebSearchAgent(WebSearch), CrawlAgent(Crawl), llm)
 
 if st.button("🚀 Fetch Syllabus", use_container_width=True):
     if exam_name:
